@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources Grid</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #4a90e2, #d4e157);
+  }
+
+  .container {
+    padding: 40px;
+    max-width: 1100px;
+    margin: auto;
+  }
+
+  h1 {
+    color: #0b2c5f;
+    margin-bottom: 30px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .card {
+    background: #f5f7f8;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+
+  .title {
+    font-weight: bold;
+    color: #1a3c6e;
+    margin-bottom: 5px;
+  }
+
+  .desc {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+  .link {
+    color: #2a6fd6;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .link::after {
+    content: " >";
+  }
+  
+  
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Resources</h1>
+
+  <div class="grid">
+    <div class="card wide">
+      <div class="icon">✉️</div>
+      <div class="title">Contact our media team</div>
+      <div class="desc">Reach our news team</div>
+      <a href="#" class="link">Read more</a>
+    </div>
+
+    <div class="card wide">
+      <div class="icon">🌱</div>
+      <div class="title">Investor relations</div>
+      <div class="desc">Get in-depth financial information</div>
+      <a href="#" class="link">Read more</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">🛠️</div>
+      <div class="title">Logo usage</div>
+      <div class="desc">How-to guides</div>
+      <a href="#" class="link">Read more</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">🏆</div>
+      <div class="title">Awards</div>
+      <div class="desc">See what we’ve won</div>
+      <a href="#" class="link">Read more</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">🧠</div>
+      <div class="title">Insights blog</div>
+      <div class="desc">Our latest thinking</div>
+      <a href="#" class="link">Read more</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">🌍</div>
+      <div class="title">Company overview</div>
+      <div class="desc">Facts about our company</div>
+      <a href="#" class="link">Read more</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">⭐</div>
+      <div class="title">Executive bios</div>
+      <div class="desc">Meet our leadership team</div>
+      <a href="#" class="link">Read more</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">📄</div>
+      <div class="title">Annual report</div>
+      <div class="desc">Our financial results</div>
+      <a href="#" class="link">Read more</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
