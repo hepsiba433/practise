@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+ <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+            background-color: #f2f2f2;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        select, input {
+            padding: 8px;
+            margin: 10px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <h2>Product Discount Calculator</h2>
+
+    <!-- Dropdown -->
+    <div>
+        Select Product:
+        <select id="product">
+            <option value="800">Mouse</option>
+            <option value="1500">Keyboard</option>
+            <option value="50000">Laptop</option>
+        </select>
+    </div>
+
+    <!-- Discount Input -->
+    <div>
+        Enter Discount:
+        <input type="number" id="discount" placeholder="Enter %" />
+    </div>
+
+    <!-- Button -->
+    <button onclick="calculate()">Get Final Price</button>
+
+    <!-- Output -->
+    <p id="original"></p>
+    <p id="final"></p>
+
+    <script>
+        function calculate() {
+
+            // get selected product price
+            var price = document.getElementById("product").value;
+
+            // get discount
+            var discount = document.getElementById("discount").value;
+
+            // calculate final price
+            var finalPrice = price - (price * discount / 100);
+
+            // display result
+            document.getElementById("original").innerHTML = "Original Price: " + price;
+            document.getElementById("final").innerHTML = "Total Amount: " + finalPrice;
+        }
+    </script>
+
+
+    
+
+</body>
+</html>
