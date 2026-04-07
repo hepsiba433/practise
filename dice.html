@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+            transition: background-color 0.5s;
+              /*smooth color change*/
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        #number {
+            font-size: 40px;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        #diceIcon {
+            font-size: 50px;
+            display: none; /* hidden dice initially */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎲 Dice Roller</h1>
+
+    <!-- Number -->
+    <div id="number">Click to roll</div>
+
+    <!-- Dice Emoji -->
+    <div id="diceIcon">🎲</div>
+
+    <br>
+
+    <!-- Button -->
+    <button onclick="rollDice()">Roll Dice</button>
+
+    <script>
+        function rollDice() {
+
+            // Random number (1–6)
+            var randomNumber = Math.floor(Math.random() * 6) + 1;
+
+            // Show number FIRST
+            document.getElementById("number").innerHTML = "Number: " + randomNumber;
+
+            // Show dice emoji AFTER
+            var dice = document.getElementById("diceIcon");
+            dice.style.display = "block";
+
+            // Dice emojis
+            var diceEmojis = ["⚀","⚁","⚂","⚃","⚄","⚅"];
+            dice.innerHTML = diceEmojis[randomNumber - 1];
+
+            // Change background color
+            changeColor(randomNumber);
+        }
+
+        function changeColor(num) {
+            switch(num) {
+                case 1: document.body.style.backgroundColor = "lightcoral"; break;
+                case 2: document.body.style.backgroundColor = "lightblue"; break;
+                case 3: document.body.style.backgroundColor = "lightgreen"; break;
+                case 4: document.body.style.backgroundColor = "lightyellow"; break;
+                case 5: document.body.style.backgroundColor = "plum"; break;
+                case 6: document.body.style.backgroundColor = "orange"; break;
+            }
+        }
+    </script>
+    
+
+
+
+</body>
+</html>
