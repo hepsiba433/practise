@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tally Counter</title>
+</head>
+<style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #6a5acd, #7b68ee);
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h3 {
+            letter-spacing: 2px;
+            color: gray;
+        }
+
+        #count {
+            font-size: 70px;
+            color: #10b981;
+            margin: 20px 0;
+        }
+
+        .btns {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            background: #e5e7eb;
+        }
+
+        button:hover {
+            background: #d1d5db;
+        }
+
+        .reset {
+            margin-top: 15px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+
+
+
+<body>
+    
+<div class="container">
+    <h3>TALLY COUNTER</h3>
+    
+    <div id="count">0</div>
+
+    <div class="btns">
+        <button onclick="decrease()">- Minus</button>
+        <button onclick="increase()">+ Plus</button>
+    </div>
+
+    <button class="reset" onclick="reset()">Reset Counter</button>
+</div>
+
+<script>
+    var count = 0;
+
+    function increase() {
+        count++;
+        document.getElementById("count").innerHTML = count;
+    }
+
+    function decrease() {
+        count--;
+        document.getElementById("count").innerHTML = count;
+    }
+
+    function reset() {
+        count = 0;
+        document.getElementById("count").innerHTML = count;
+    }
+</script>
+
+</body>
+</html>
