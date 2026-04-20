@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 40px;
+        transition: background 0.5s, color 0.5s;
+    }
+
+    .dark {
+        background: #0f172a;
+        color: white;
+    }
+
+    input, button {
+        padding: 10px;
+        margin: 5px;
+        font-size: 16px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    #time {
+        font-size: 20px;
+        margin-top: 15px;
+    }
+
+    #counter {
+        font-size: 30px;
+        margin: 20px;
+    }
+</style>
+</head>
+
+<body>
+<h1 id="mainHeading">Welcome!</h1>
+
+<input type="text" id="heading" placeholder="Enter heading">
+<button onclick="setCustomHeading()">Update</button>
+
+<script>
+function setCustomHeading() {
+    let text = document.getElementById("heading").value;
+    if (text.trim() === "") return;
+
+    let heading = document.getElementById("mainHeading");
+    heading.innerText = text;
+
+    let hue = Math.floor(Math.random() * 360);
+    heading.style.color = `hsl(${hue}, 70%, 50%)`;
+}
+</script>
+
+
+<button onclick="changeBackground()">Change Background</button>
+
+
+<script>
+function changeBackground() {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+
+    document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+}
+</script>
+
+<button onclick="showTime()">Show Time</button>
+<div id="time"></div>
+
+<script>
+let interval;
+
+function showTime() {
+    clearInterval(interval);
+
+    interval = setInterval(() => {
+        let now = new Date();
+        document.getElementById("time").innerText = now.toLocaleTimeString();
+    }, 1000);
+}
+</script>
+
+
+
+<div id="counter">0</div>
+
+<button onclick="increase()">+</button>
+<button onclick="decrease()">-</button>
+
+<script>
+let counter = 0;
+
+function updateCounter() {
+    let el = document.getElementById("counter");
+    el.innerText = counter;
+
+    if (counter > 0) {
+        el.style.color = "green";
+    } else if (counter < 0) {
+        el.style.color = "red";
+    } else {
+        el.style.color = "black";
+    }
+}
+
+function increase() {
+    counter++;
+    updateCounter();
+}
+
+function decrease() {
+    counter--;
+    updateCounter();
+}
+</script>
+
+
+<button onclick="resetApp()">Reset</button>
+
+<script>
+function resetApp() {
+    // Reset heading
+    document.getElementById("mainHeading").innerText = "Welcome!";
+    document.getElementById("mainHeading").style.color = "black";
+
+    // Reset background
+    document.body.style.backgroundColor = "white";
+
+    // Reset counter
+    counter = 0;
+    updateCounter();
+
+    // Clear time
+    clearInterval(interval);
+    document.getElementById("time").innerText = "";
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+    
+</body>
+</html>
