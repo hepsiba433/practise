@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .dark {
+            background: #222;
+            color: #fff;
+        }
+
+        .course {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            margin-top: 5px;
+        }
+
+        .highlight {
+            background: yellow;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            margin: 10% auto;
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Course Portal</h2>
+
+    <!--  Filters -->
+    <select id="deptFilter" onchange="render()">
+        <option value="all">All</option>
+        <option value="CSE">CSE</option>
+        <option value="ECE">ECE</option>
+        <option value="MBA">MBA</option>
+    </select>
+
+    <select id="sort" onchange="render()">
+        <option value="">Sort</option>
+        <option value="low">Seats Low-High</option>
+        <option value="high">Seats High-Low</option>
+    </select>
+
+    <label>
+        <input type="checkbox" id="availableOnly" onchange="render()"> Available Only
+    </label>
+
+    <input type="text" id="search" placeholder="Search..." oninput="render()">
+
+    <button onclick="toggleDark()">🌙 Dark Mode</button>
+
+    <hr>
+
+    <!-- Course List -->
+    <div id="courses"></div>
+
+    <hr>
+
+    <!--  Add Course -->
+    <h3>Add Course</h3>
+    <input id="name" placeholder="Course Name">
+    <input id="dept" placeholder="Dept (CSE/ECE/MBA)">
+    <input id="seats" type="number" placeholder="Seats">
+    <button onclick="addCourse()">Add</button>
+
+    <!--  Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent"></div>
+    </div>
+
+    <script>
+
+        //  Load from LocalStorage
+        let courses = JSON.parse(localStorage.getItem("courses")) || [
+            { name: "JS", dept: "CSE", seats: 5 },
+            { name: "DS", dept: "CSE", seats: 2 },
+            { name: "Circuits", dept: "ECE", seats: 0 },
+            { name: "Marketing", dept: "MBA", seats: 3 }
+        ];
+
+        //  Save
+        function save() {
+            localStorage.setItem("courses", JSON.stringify(courses));
+        }
+
+        //  Render
+        function render() {
+            let list = document.getElementById("courses");
+            list.innerHTML = "";
+
+            let dept = document.getElementById("deptFilter").value;
+            let sort = document.getElementById("sort").value;
+            let available = document.getElementById("availableOnly").checked;
+            let search = document.getElementById("search").value.toLowerCase();
+
+            let filtered = courses.filter(c => {
+                return (dept === "all" || c.dept === dept) &&
+                    (!available || c.seats > 0) &&
+                    c.name.toLowerCase().includes(search);
+            });
+
+            //  Sorting
+            if (sort === "low") filtered.sort((a, b) => a.seats - b.seats);
+            if (sort === "high") filtered.sort((a, b) => b.seats - a.seats);
+
+            filtered.forEach((c, i) => {
+                let div = document.createElement("div");
+                div.className = "course";
+
+                //  Highlight search
+                let name = c.name.replace(
+                    new RegExp(search, "gi"),
+                    match => `<span class="highlight">${match}</span>`
+                );
+
+                div.innerHTML = `
+     <b onclick="showDetails(${i})">${name}</b><br>
+     Dept: ${c.dept}<br>
+     Seats: ${c.seats > 0 ? c.seats : "Full"}<br>
+     <button onclick="enroll(${i})" ${c.seats == 0 ? "disabled" : ""}>
+       Enroll
+     </button>
+   `;
+
+                list.appendChild(div);
+            });
+        }
+
+        //  Enroll
+        function enroll(i) {
+            if (courses[i].seats > 0) {
+                courses[i].seats--;
+                save();
+                render();
+            }
+        }
+
+        //  Modal
+        function showDetails(i) {
+            let modal = document.getElementById("modal");
+            let content = document.getElementById("modalContent");
+
+            let c = courses[i];
+            content.innerHTML = `
+   <h3>${c.name}</h3>
+   <p>Department: ${c.dept}</p>
+   <p>Seats: ${c.seats}</p>
+   <button onclick="closeModal()">Close</button>
+ `;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+
+        //  Add Course
+        function addCourse() {
+            let name = document.getElementById("name").value;
+            let dept = document.getElementById("dept").value;
+            let seats = document.getElementById("seats").value;
+
+            if (!name || !dept || !seats) return;
+
+            courses.push({ name, dept, seats: parseInt(seats) });
+            save();
+            render();
+        }
+
+        //  Dark Mode
+        function toggleDark() {
+            document.body.classList.toggle("dark");
+        }
+
+        //  Init
+        render();
+
+    </script>
+
+
+</body>
+
+</html>
