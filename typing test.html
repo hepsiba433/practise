@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing test</title>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Typing Test App</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 450px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #5a67d8;
+}
+
+#testPage {
+    display: none;
+    width: 700px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+#sentence {
+    background: #eef1f7;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: left;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 130px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* POPUP */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- FORM -->
+<div class="card" id="formPage">
+    <h2>Start Typing Test</h2>
+    <input type="text" id="name" placeholder="Enter Name">
+    <input type="email" id="email" placeholder="Enter Email">
+    <button onclick="startExam()">Start Exam</button>
+</div>
+
+<!-- TEST -->
+<div class="card" id="testPage">
+    <h2 id="welcome"></h2>
+
+    <div class="info">
+        <span>Time: <span id="time">60</span>s</span>
+        <span>Mistakes: <span id="mistakes">0</span></span>
+    </div>
+
+    <p id="sentence"></p>
+
+    <textarea id="input" placeholder="Start typing here..."></textarea>
+
+    <p>Accuracy: <span id="accuracy">0</span>%</p>
+    <p>WPM: <span id="wpm">0</span></p>
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+    <div class="popup-box">
+        <h2>🎉 Congratulations!</h2>
+        <p>Test Completed</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+</div>
+
+<script>
+const paragraphs = [
+`Typing is an essential skill that improves with regular practice. A good typing speed helps in completing tasks faster and increases productivity in daily work.`,
+
+`Web development involves designing and building websites using technologies like HTML, CSS, and JavaScript. Practice and consistency are key to becoming a skilled developer.`,
+
+`Success comes from dedication and continuous learning. Improving your typing accuracy and speed requires patience, focus, and daily effort.`
+];
+
+let timer = 60;
+let interval;
+let currentSentence = "";
+
+//  LOAD FROM JSON
+function loadData() {
+    let data = JSON.parse(localStorage.getItem("typingData"));
+
+    if (data) {
+        document.getElementById("name").value = data.name || "";
+        document.getElementById("email").value = data.email || "";
+
+        if (data.wpm && data.accuracy) {
+            document.getElementById("previous").innerText =
+                "Last Score → WPM: " + data.wpm + " | Accuracy: " + data.accuracy + "%";
+        }
+    }
+}
+
+window.onload = loadData;
+
+
+// START EXAM
+function startExam() {
+    //get user details from input fields//
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+
+//validate if details are filled//if not shown alert and return//
+//if empty show alert and stop execution//
+    if (name === "" || email === "") {
+        alert("Please fill all details");
+        return;
+    }
+
+    
+    // SAVE BASIC DATA
+    let data = {
+        name: name,
+        email: email
+    };
+
+    localStorage.setItem("typingData", JSON.stringify(data));
+
+
+//hides form page and shows test page//
+    document.getElementById("formPage").style.display = "none";
+    document.getElementById("testPage").style.display = "block";
+    document.getElementById("welcome").innerText = "Welcome, " + name;
+
+    startTest();
+}
+
+// START TEST
+function startTest() {
+    //pick a random paragraph and stores it in current sentence//
+    currentSentence = paragraphs[Math.floor(Math.random() * paragraphs.length)];
+//show paragrapgh on screen//
+    document.getElementById("sentence").innerText = currentSentence;
+    document.getElementById("input").value = "";
+
+//stops previous data//
+    timer = 60;
+    document.getElementById("time").innerText = timer;
+    document.getElementById("mistakes").innerText = 0;
+
+// stops previous timer//
+    clearInterval(interval);
+
+//runs every one sec decrese the time and update UI//
+    interval = setInterval(() => {
+        timer--;
+        document.getElementById("time").innerText = timer;
+
+//checks the mistakes stop test when time ends and calls result function//
+        checkMistakes();
+
+        if (timer === 0) {
+            clearInterval(interval);
+            showResult();
+        }
+    }, 1000);
+}
+
+
+//gets the user input and original sentence, splits the sentences into words, and counts the number of mistakes by comapring each word. It then updates the mistakes count in the UI.
+function checkMistakes() {
+    let input = document.getElementById("input").value.trim();
+    let original = currentSentence.trim();
+
+    let inputWords = input === "" ? [] : input.split(/\s+/);
+    let originalWords = original.split(/\s+/);
+
+    let mistakes = 0;
+
+    for (let i = 0; i < inputWords.length; i++) {
+        //if words dont match then count as mistake//
+        if (inputWords[i] !== originalWords[i]) {
+            mistakes++;
+        }
+    }
+//display mistakesin U.
+    document.getElementById("mistakes").innerText = mistakes;
+}
+
+// RESULT
+function showResult() {
+    let input = document.getElementById("input").value.trim();
+    let original = currentSentence.trim();
+//split the sentences into words//if input is empty then set to empty array to avaoid errors when counting correct words//
+    let inputWords = input === "" ? [] : input.split(/\s+/);
+    let originalWords = original.split(/\s+/);
+//count correct words//
+    let correctWords = 0;
+
+    for (let i = 0; i < inputWords.length; i++) {
+        if (inputWords[i] === originalWords[i]) {
+            correctWords++;
+        }
+    }
+//count mistakes by subtarcting correct words from total input words.if mistakes is negative then set to 0 //
+    let mistakes = inputWords.length - correctWords;
+    if (mistakes < 0) mistakes = 0;
+//show mistakes in UI//
+    document.getElementById("mistakes").innerText = mistakes;
+
+    // WPM
+    document.getElementById("wpm").innerText = inputWords.length;
+
+    // Accuracy based on total paragraph wordsand correct words.if accuracy is negative then set to 0//
+    let accuracy = (correctWords / originalWords.length) * 100;
+    if (accuracy < 0) accuracy = 0;
+//shown accuracy with 2 decimal places in ui//
+    document.getElementById("accuracy").innerText = accuracy.toFixed(2);
+
+
+    //  UPDATE JSON OBJECT
+    let data = JSON.parse(localStorage.getItem("typingData")) || {};
+
+    data.wpm = wpm;
+    data.accuracy = accuracy;
+
+    localStorage.setItem("typingData", JSON.stringify(data));
+
+    loadData();
+
+
+//show popip//
+    document.getElementById("popup").style.display = "flex";
+}
+
+// CLOSE POPUP
+function closePopup() {
+    //hides the popup//
+
+    document.getElementById("popup").style.display = "none";
+}
+</script>
+
+
+
+
+</body>
+
+</html>
