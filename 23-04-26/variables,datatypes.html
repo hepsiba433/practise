@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech College | JavaScript Fundamentals</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+}
+
+nav {
+    background: #1a2a6c;
+    color: white;
+    padding: 15px 30px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.hero {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+    color: white;
+    padding: 60px 30px;
+    text-align: center;
+}
+
+.container {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.details {
+    padding: 30px;
+    background: white;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.interactive {
+    margin: 30px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+input, button {
+    padding: 10px;
+    margin-top: 10px;
+}
+
+button {
+    background: #1a2a6c;
+    color: white;
+    border: none;
+}
+</style>
+</head>
+
+<body>
+
+<nav>Global Tech College</nav>
+
+<section class="hero">
+    <h1>JavaScript Fundamentals</h1>
+    <p>Learn Variables & Data Types in Depth</p>
+</section>
+
+<section class="container">
+
+<div class="card" onclick="showContent('variables')">
+    <h3>Variables</h3>
+</div>
+
+<div class="card" onclick="showContent('datatypes')">
+    <h3>Data Types</h3>
+</div>
+
+<div class="card" onclick="showContent('primitive')">
+    <h3>Primitive Types</h3>
+</div>
+
+<div class="card" onclick="showContent('nonprimitive')">
+    <h3>Non-Primitive Types</h3>
+</div>
+
+<div class="card" onclick="showContent('conversion')">
+    <h3>Type Conversion</h3>
+</div>
+
+</section>
+
+<section class="details" id="details">
+    <h2>Select a topic to view full content</h2>
+</section>
+
+<section class="interactive">
+    <h2>Try Type Checking</h2>
+    <input type="text" id="userInput" placeholder="Enter value">
+    <br>
+    <button onclick="checkType()">Check Type</button>
+    <p id="result"></p>
+</section>
+
+<script>
+
+const contentData = {
+
+variables: `
+<h2>Variables</h2>
+
+<p>A variable is used to store data. It acts like a container that holds values.</p>
+
+<h3>Variable Declaration</h3>
+<ul>
+<li><b>var</b> → Function scoped, old method</li>
+<li><b>let</b> → Block scoped, can be reassigned</li>
+<li><b>const</b> → Block scoped, cannot be reassigned</li>
+</ul>
+
+<h3>Examples</h3>
+<pre>
+let name = "John";
+const age = 20;
+var city = "Hyderabad";
+</pre>
+
+<h3>Rules for Naming Variables</h3>
+<ul>
+<li>Must start with letter, _ or $</li>
+<li>Cannot start with number</li>
+<li>No spaces allowed</li>
+<li>Case-sensitive</li>
+</ul>
+
+<h3>Scope</h3>
+<p>Scope defines where a variable can be used.</p>
+<pre>
+{
+   let x = 10; // block scope
+}
+</pre>
+
+<h3>Reassignment</h3>
+<pre>
+let x = 10;
+x = 20; // allowed
+
+const y = 5;
+y = 10; // error
+</pre>
+`,
+
+datatypes: `
+<h2>Data Types</h2>
+
+<p>A data type defines what kind of data is stored in a variable.</p>
+
+<h3>Types of Data</h3>
+<ul>
+<li>Number → 10, 20.5</li>
+<li>String → "Hello"</li>
+<li>Boolean → true / false</li>
+<li>Undefined</li>
+<li>Null</li>
+<li>Object</li>
+</ul>
+
+<h3>Example</h3>
+<pre>
+let age = 25; // number
+let name = "John"; // string
+let isStudent = true; // boolean
+</pre>
+`,
+
+primitive: `
+<h2>Primitive Data Types</h2>
+
+<p>Primitive types are basic data types.</p>
+
+<ul>
+<li><b>String</b> → "Hello"</li>
+<li><b>Number</b> → 100</li>
+<li><b>Boolean</b> → true/false</li>
+<li><b>Undefined</b> → variable declared but not assigned</li>
+<li><b>Null</b> → empty value</li>
+</ul>
+
+<h3>Example</h3>
+<pre>
+let a = "text";
+let b = 10;
+let c = true;
+</pre>
+`,
+
+nonprimitive: `
+<h2>Non-Primitive Data Types</h2>
+
+<p>These are complex data structures.</p>
+
+<ul>
+<li><b>Object</b></li>
+<li><b>Array</b></li>
+<li><b>Function</b></li>
+</ul>
+
+<h3>Examples</h3>
+<pre>
+let person = {
+   name: "John",
+   age: 20
+};
+
+let arr = [1,2,3];
+
+function greet() {
+   console.log("Hello");
+}
+</pre>
+`,
+
+conversion: `
+<h2>Type Checking & Conversion</h2>
+
+<h3>Type Checking</h3>
+<pre>
+typeof "Hello" → string
+typeof 10 → number
+</pre>
+
+<h3>Type Conversion</h3>
+<ul>
+<li>Number()</li>
+<li>String()</li>
+<li>Boolean()</li>
+</ul>
+
+<h3>Examples</h3>
+<pre>
+Number("10") → 10
+String(100) → "100"
+Boolean(1) → true
+</pre>
+`
+};
+
+function showContent(topic) {
+    document.getElementById("details").innerHTML = contentData[topic];
+}
+
+function checkType() {
+    let value = document.getElementById("userInput").value;
+    document.getElementById("result").innerText =
+        "Data Type: " + typeof value;
+}
+
+</script>
+
+</body>
+</html>
