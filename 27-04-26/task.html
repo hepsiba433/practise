@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+        width: 60%;
+        background: #ddd;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .progress-bar {
+        height: 25px;
+        width: 0%;
+        background: green;
+        text-align: center;
+        color: white;
+        line-height: 25px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .container {
+        display: flex;
+        gap: 20px;
+    }
+
+    .box {
+        width: 200px;
+        height: 200px;
+        background: lightgray;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 10px;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        color: white;
+    }
+
+    .red { background: red; }
+    .green { background: green; }
+    .blue { background: blue; }
+
+    .reset {
+        background: black;
+        width: 100%;
+    }
+</style>
+</head>
+
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+    <div class="container">
+
+        <!-- LEFT BOX -->
+        <div class="box" id="leftBox">
+            <div class="buttons">
+                <button class="red" onclick="changeColor('leftBox','red')">Red</button>
+                <button class="green" onclick="changeColor('leftBox','green')">Green</button>
+                <button class="blue" onclick="changeColor('leftBox','blue')">Blue</button>
+            </div>
+            <button class="reset" onclick="resetColor('leftBox')">Reset</button>
+        </div>
+
+        <!-- RIGHT BOX -->
+        <div class="box" id="rightBox">
+            <div class="buttons">
+                <button class="red" onclick="changeColor('rightBox','red')">Red</button>
+                <button class="green" onclick="changeColor('rightBox','green')">Green</button>
+                <button class="blue" onclick="changeColor('rightBox','blue')">Blue</button>
+            </div>
+            <button class="reset" onclick="resetColor('rightBox')">Reset</button>
+        </div>
+
+    </div>
+
+    <script>
+    let progress = 0;
+
+    function updateProgress(value) {
+        progress += value;
+
+        if (progress > 100) progress = 100;
+        if (progress < 0) progress = 0;
+
+        const bar = document.getElementById("progressBar");
+        bar.style.width = progress + "%";
+        bar.textContent = progress + "%"; //  percentage text update
+    }
+
+    function changeColor(boxId, color) {
+        const box = document.getElementById(boxId);
+        box.style.background = color;
+
+        updateProgress(10);
+    }
+
+    function resetColor(boxId) {
+        const box = document.getElementById(boxId);
+        box.style.background = "lightgray";
+
+        updateProgress(-10);
+    }
+</script>
+
+
+</body >
+</html >
