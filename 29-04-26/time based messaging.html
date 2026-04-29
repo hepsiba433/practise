@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Time Dashboard</title>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Segoe UI';
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#1e1e2f;
+    color:rgb(104, 127, 165);
+    transition:0.3s;
+}
+
+.container {
+    width:420px;
+    padding:25px;
+    border-radius:15px;
+    background:#2c2c3c;
+    text-align:center;
+}
+
+/* Top controls */
+.top {
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+button {
+    padding:6px 10px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* Timeline */
+.timeline {
+    display:flex;
+    height:15px;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:20px;
+    position:relative;
+}
+
+.segment {
+    height:100%;
+    opacity:0.4;
+    transition:0.3s;
+}
+
+.active {
+    opacity:1;
+    transform:scaleY(1.2);
+}
+
+.morning { width:29%; background:#FFD93D; }
+.afternoon { width:21%; background:#FF8C42; }
+.evening { width:17%; background:#6C5CE7; }
+.night { width:33%; background:#2C3E50; }
+
+/* Progress */
+.progress {
+    position:absolute;
+    height:100%;
+    background:rgba(255,255,255,0.3);
+    left:0;
+    top:0;
+    width:0%;
+}
+
+.indicator {
+    position:absolute;
+    top:-5px;
+    width:3px;
+    height:25px;
+    background:white;
+}
+
+/* Inputs */
+.controls {
+    margin-top:20px;
+}
+
+input[type="range"] {
+    width:100%;
+}
+
+input[type="time"] {
+    margin-top:10px;
+    padding:5px;
+    border-radius:5px;
+}
+
+/* Dark mode */
+.dark {
+    background:#f5f5f5;
+    color:#111;
+}
+
+.dark .container {
+    background:#fff;
+    color:#111;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    
+    <div class="top">
+        <button id="modeBtn">Switch to Manual</button>
+        <button id="themeBtn">🌗 Theme</button>
+    </div>
+
+    <h2 id="message">Loading...</h2>
+    <div id="time"></div>
+
+    <div class="timeline">
+        <div class="segment morning" id="morning"></div>
+        <div class="segment afternoon" id="afternoon"></div>
+        <div class="segment evening" id="evening"></div>
+        <div class="segment night" id="night"></div>
+
+        <div class="progress" id="progress"></div>
+        <div class="indicator" id="indicator"></div>
+    </div>
+
+    <div class="controls">
+        <input type="range" min="0" max="24" step="0.01" id="slider">
+        <input type="time" id="timeInput">
+    </div>
+
+</div>
+
+<script>
+let mode = localStorage.getItem("mode") || "realtime";
+let dark = localStorage.getItem("theme") === "dark";
+
+const modeBtn = document.getElementById("modeBtn");
+const themeBtn = document.getElementById("themeBtn");
+
+const slider = document.getElementById("slider");
+const timeInput = document.getElementById("timeInput");
+
+// Apply theme
+if(dark) document.body.classList.add("dark");
+
+// Toggle theme
+themeBtn.onclick = () => {
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme",
+        document.body.classList.contains("dark") ? "dark" : "light");
+};
+
+// Toggle mode
+modeBtn.onclick = () => {
+    mode = mode === "realtime" ? "manual" : "realtime";
+    localStorage.setItem("mode", mode);
+    modeBtn.textContent =
+        mode === "realtime" ? "Switch to Manual" : "Switch to Real Time";
+};
+
+function updateUI(hour) {
+    let h = Math.floor(hour);
+    let m = Math.floor((hour - h) * 60);
+
+    document.querySelectorAll(".segment")
+        .forEach(el => el.classList.remove("active"));
+
+    let msg = "";
+
+    if (h >= 5 && h < 12) {
+        document.getElementById("morning").classList.add("active");
+        msg = "🌅 Morning";
+    } else if (h < 17) {
+        document.getElementById("afternoon").classList.add("active");
+        msg = "☀️ Afternoon";
+    } else if (h < 21) {
+        document.getElementById("evening").classList.add("active");
+        msg = "🌇 Evening";
+    } else {
+        document.getElementById("night").classList.add("active");
+        msg = "🌙 Night";
+    }
+
+    document.getElementById("message").textContent = msg;
+    document.getElementById("time").textContent =
+        `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+
+    let percent = (hour / 24) * 100;
+
+    document.getElementById("progress").style.width = percent + "%";
+    document.getElementById("indicator").style.left = percent + "%";
+}
+
+// Manual controls sync
+slider.oninput = () => {
+    if(mode === "manual"){
+        let val = parseFloat(slider.value);
+        updateUI(val);
+        timeInput.value = `${Math.floor(val).toString().padStart(2,'0')}:${Math.floor((val%1)*60).toString().padStart(2,'0')}`;
+    }
+};
+
+timeInput.oninput = () => {
+    if(mode === "manual"){
+        let [h,m] = timeInput.value.split(":");
+        let val = parseInt(h) + (parseInt(m)/60);
+        slider.value = val;
+        updateUI(val);
+    }
+};
+
+// Real-time loop
+setInterval(() => {
+    if(mode === "realtime"){
+        let now = new Date();
+        let hour = now.getHours() + now.getMinutes()/60;
+        updateUI(hour);
+    }
+}, 1000);
+
+// Init
+modeBtn.textContent =
+    mode === "realtime" ? "Switch to Manual" : "Switch to Real Time";
+
+slider.value = 10;
+updateUI(10);
+</script>
+
+</body>
+</html>

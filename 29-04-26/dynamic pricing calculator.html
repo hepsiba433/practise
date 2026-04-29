@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Pricing Final</title>
+
+<style>
+body {
+    font-family: 'Segoe UI';
+    background: linear-gradient(135deg, #1d2671, #c33764);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 360px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(30px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+h2 { text-align: center; }
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background: #1d2671;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover { background: #0f1545; }
+
+.result {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: green;
+    transform: scale(0.8);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.result.show {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.breakdown {
+    font-size: 14px;
+    margin-top: 10px;
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.4s;
+}
+
+.breakdown.show { max-height: 250px; }
+
+.time-badge {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 5px;
+    color: #555;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>⚡ Smart Pricing</h2>
+
+    <input type="number" id="basePrice" placeholder="Base Price">
+
+    <select id="demand">
+        <option value="1">Low Demand</option>
+        <option value="1.3">Medium Demand</option>
+        <option value="1.7">High Demand</option>
+    </select>
+
+    <!-- Customer Type -->
+    <select id="customer">
+        <option value="1">Regular Customer</option>
+        <option value="0.9">Premium Customer (10% off)</option>
+    </select>
+
+    <input type="text" id="promo" placeholder="Promo Code (SAVE10)">
+    <input type="number" id="tax" placeholder="GST (%)">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="time-badge" id="timeInfo"></div>
+    <div class="result" id="result"></div>
+    <div class="breakdown" id="breakdown"></div>
+</div>
+
+<script>
+
+// Time logic
+function getTimeMultiplier() {
+    let hour = new Date().getHours();
+
+    if (hour >= 18 && hour <= 22) return {value:1.5, label:"Peak Hours"};
+    if (hour >= 0 && hour <= 6) return {value:0.7, label:"Off Hours"};
+    return {value:1, label:"Normal Time"};
+}
+
+// Promo
+function getPromo(code) {
+    if (code === "SAVE10") return 10;
+    if (code === "SAVE20") return 20;
+    return 0;
+}
+
+function calculate() {
+    let base = parseFloat(document.getElementById("basePrice").value);
+    let demand = parseFloat(document.getElementById("demand").value);
+    let customer = parseFloat(document.getElementById("customer").value);
+    let tax = parseFloat(document.getElementById("tax").value) || 0;
+    let promo = document.getElementById("promo").value.toUpperCase();
+
+    if (isNaN(base)) {
+        alert("Enter base price");
+        return;
+    }
+
+    let timeObj = getTimeMultiplier();
+    let time = timeObj.value;
+
+    let price = base * demand * time * customer;
+
+    let discount = getPromo(promo);
+    price -= price * discount / 100;
+
+    let taxAmount = price * tax / 100;
+    price += taxAmount;
+
+    // UI
+    let result = document.getElementById("result");
+    let breakdown = document.getElementById("breakdown");
+    let timeInfo = document.getElementById("timeInfo");
+
+    result.innerText = "Final Price: ₹ " + price.toFixed(2);
+
+    result.classList.remove("show");
+    void result.offsetWidth;
+    result.classList.add("show");
+
+    timeInfo.innerText = "Current: " + timeObj.label;
+
+    breakdown.innerHTML = `
+        Base: ₹${base} <br>
+        Demand: x${demand} <br>
+        Time (${timeObj.label}): x${time} <br>
+        Customer: x${customer} <br>
+        Promo: -${discount}% <br>
+        Tax: +${tax}% <br>
+        <b>Final: ₹${price.toFixed(2)}</b>
+    `;
+
+    breakdown.classList.add("show");
+
+    localStorage.setItem("lastPrice", price);
+}
+
+</script>
+
+</body>
+</html>
