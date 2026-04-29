@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final To-Do</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Calibri;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+}
+
+/* Controls */
+.controls {
+    margin-bottom: 20px;
+}
+
+select, button {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    margin-right: 10px;
+}
+
+button {
+    background: linear-gradient(45deg, #ff7eb3, #ff758c);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Container */
+.container {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #e0e0e0;
+    min-width: 140px;
+    height: 35px;
+    padding: 6px;
+}
+
+th {
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+}
+
+/* Hover */
+tr:hover td {
+    background: #f5f9ff;
+}
+
+/* Active */
+tr.active td {
+    background: #e6f2ff !important;
+}
+
+/* Row Colors */
+.row-completed td {
+    background: #e8f5e9 !important;
+    color: #2e7d32;
+}
+
+.row-not-completed td {
+    background: #ffebee !important;
+    color: #b71c1c;
+}
+
+/* Dropdown colors */
+.status-select {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.completed {
+    background: linear-gradient(to right, #4CAF50, #2e7d32);
+}
+
+.not-completed {
+    background: linear-gradient(to right, #e53935, #b71c1c);
+}
+</style>
+</head>
+
+<body>
+
+<div class="controls">
+    <select id="dateSelect" onchange="loadDateData()"></select>
+    <button onclick="saveData()">Save</button>
+</div>
+
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Task</th>
+                <th>To-Do List</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+
+<script>
+let allTasks = JSON.parse(localStorage.getItem("dateTasks")) || {};
+let tasks = [];//if nothing empty use empty object//
+
+/* Generate 7 days */
+function generateDates() {
+    let select = document.getElementById("dateSelect");
+    select.innerHTML = "";
+
+    let today = new Date();//current date object//
+
+    for (let i = 0; i < 7; i++) {//loop for 7 days//
+        let d = new Date();
+        d.setDate(today.getDate() + i);
+
+        let formatted = d.toDateString();//converting data to string//
+
+        let option = document.createElement("option");//create dropdown option//
+        option.value = formatted;
+        option.textContent = formatted;
+
+        select.appendChild(option);//add option to dropdown//
+    }
+}
+
+/* Load */
+function loadDateData() {
+    let selectedDate = document.getElementById("dateSelect").value;
+    tasks = allTasks[selectedDate] || [];// if data exists load it else empty array//
+
+    renderTable();
+}
+
+/* Render */
+function renderTable() {
+    let body = document.getElementById("tableBody");//clear previous rows//
+    body.innerHTML = "";
+
+    tasks.forEach((task, i) => {
+        body.appendChild(createRow(i, task.text, task.status));//loop through saved tasks and create row for each//
+    });
+
+    for (let i = 0; i < 5; i++) {
+        body.appendChild(createRow(tasks.length + i, "", "Not Completed"));//adds extra empty rows so user can enter new tasks//
+
+    }
+}
+
+/* Create Row */
+function createRow(index, text, status) {
+    let row = document.createElement("tr");//creates table row//
+
+    // Row color initial
+    if (status === "Completed") {
+        row.classList.add("row-completed");//green complted red not complted//
+    } else {
+        row.classList.add("row-not-completed");
+    }
+
+    row.onclick = () => {
+        document.querySelectorAll("tr").forEach(r => r.classList.remove("active"));
+        row.classList.add("active");
+    };//remove highlight from all rows and highlight clicked row//
+
+    let c1 = document.createElement("td");
+    c1.textContent = index + 1;
+
+    let c2 = document.createElement("td");
+    c2.contentEditable = true;//behaves like input box//
+    c2.textContent = text;
+
+    let c3 = document.createElement("td");
+
+    let select = document.createElement("select");
+    select.classList.add("status-select");
+
+    select.innerHTML = `
+        <option>✔ Completed</option>
+        <option>✖ Not Completed</option>
+    `;
+
+    select.value = status === "Completed" ? "✔ Completed" : "✖ Not Completed";//sets default value//
+
+    updateColor(select, row);//apply correctcolors intially//
+
+    select.onchange = () => updateColor(select, row);
+
+    c3.appendChild(select);
+
+    row.appendChild(c1);
+    row.appendChild(c2);
+    row.appendChild(c3);
+
+    return row;
+}
+
+/* Update Colors */
+function updateColor(select, row) {
+    if (select.value.includes("Completed") && !select.value.includes("Not")) {
+
+        select.classList.remove("not-completed");//dropdown green//
+        select.classList.add("completed");
+
+        row.classList.remove("row-not-completed");
+        row.classList.add("row-completed");//row green//
+
+    } else {
+
+        select.classList.remove("completed");
+        select.classList.add("not-completed");
+
+        row.classList.remove("row-completed");
+        row.classList.add("row-not-completed");
+    }
+}
+
+/* Save */
+function saveData() {
+    let rows = document.querySelectorAll("#tableBody tr");
+    let selectedDate = document.getElementById("dateSelect").value;
+
+    tasks = [];
+
+    rows.forEach(row => {
+        let text = row.children[1].textContent.trim();
+        let statusText = row.children[2].querySelector("select").value;
+
+        let status = statusText.includes("Completed") && !statusText.includes("Not")
+            ? "Completed"
+            : "Not Completed";
+
+        if (text !== "") {
+            tasks.push({ text, status });
+        }
+    });
+
+    allTasks[selectedDate] = tasks;
+    localStorage.setItem("dateTasks", JSON.stringify(allTasks));
+
+    alert("Saved for " + selectedDate);
+}
+
+/* Init */
+generateDates();
+loadDateData();
+</script>
+
+</body>
+</html>
