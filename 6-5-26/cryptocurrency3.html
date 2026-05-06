@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cryptous Hero</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #140028;
+            overflow-x: hidden;
+        }
+
+        /* HERO SECTION */
+
+        .hero {
+            width: 100%;
+            min-height: 100vh;
+            background:
+                linear-gradient(135deg, #310055 0%, #18002d 55%, #120021 100%);
+            position: relative;
+        }
+
+        /* TOP NAVBAR */
+
+        .navbar {
+            width: 100%;
+            height: 70px;
+            background: #24003d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .logo span {
+            color: #ff5b73;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff5b73;
+        }
+
+        .trade-btn {
+            width: 130px;
+            height: 40px;
+            border: 2px solid #ff5b73;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff5b73;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .trade-btn:hover {
+            background: #ff5b73;
+            color: white;
+        }
+
+        /* HERO CONTENT */
+
+        .hero-content {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 80px 140px;
+        }
+
+        /* LEFT TEXT */
+
+        .left {
+            max-width: 520px;
+        }
+
+        .left h1 {
+            color: white;
+            font-size: 62px;
+            line-height: 1.25;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .left p {
+            color: #d8cde4;
+            font-size: 22px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .whitelist-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 180px;
+            height: 60px;
+            background: #ff5b73;
+            color: white;
+            text-decoration: none;
+            border-radius: 40px;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .whitelist-btn:hover {
+            background: #ff7588;
+        }
+
+        /* RIGHT IMAGE */
+
+        .right {
+            position: relative;
+        }
+
+        .right img {
+            width: 520px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* FLOAT ANIMATION */
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-18px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* BOTTOM CIRCLE */
+
+        .circle {
+            position: absolute;
+            bottom: 95px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 32px;
+            border: 4px solid white;
+            border-radius: 50%;
+            opacity: 0.9;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:1100px) {
+
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+                padding: 80px 40px;
+            }
+
+            .right img {
+                width: 400px;
+                margin-top: 50px;
+            }
+
+            .left h1 {
+                font-size: 48px;
+            }
+
+            .left p {
+                font-size: 18px;
+            }
+
+            .navbar {
+                padding: 0 25px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /*second section*/
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #140028;
+        }
+
+        /* SECTION */
+
+        .crypto-section {
+            width: 100%;
+            min-height: 100vh;
+            background: #18002d;
+            padding: 80px 0;
+        }
+
+        /* TITLE */
+
+        .title {
+            text-align: center;
+            color: white;
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 55px;
+        }
+
+        /* TABLE WRAPPER */
+
+        .table-wrapper {
+            width: 99%;
+            margin: auto;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #2a0048;
+        }
+
+        /* TABLE */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* HEADER */
+
+        thead {
+            background: #54008b;
+        }
+
+        thead th {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: left;
+            padding: 28px 20px;
+        }
+
+        /* BODY */
+
+        tbody tr {
+            background: #320055;
+            transition: 0.3s;
+        }
+
+        tbody tr:hover {
+            background: #3d0066;
+        }
+
+        tbody td {
+            color: white;
+            padding: 32px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 20px;
+        }
+
+        /* COIN */
+
+        .coin {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .coin img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .coin span {
+            color: #9d84b7;
+            margin-left: 6px;
+        }
+
+        /* GREEN RED */
+
+        .green {
+            color: #00ff73;
+            font-weight: 600;
+        }
+
+        .red {
+            color: #ff4f5e;
+            font-weight: 600;
+        }
+
+        /* CHART IMAGE */
+
+        .chart {
+            width: 34px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:1200px) {
+
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 1300px;
+            }
+        }
+
+        @media(max-width:768px) {
+
+            .title {
+                font-size: 36px;
+            }
+
+            thead th,
+            tbody td {
+                font-size: 16px;
+                padding: 22px 16px;
+            }
+        }
+
+        /*section 3*/
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f4f4;
+        }
+
+        /* SECTION */
+
+        .trusted {
+            width: 100%;
+            padding: 70px 0 90px;
+            background: #f5f5f5;
+        }
+
+        /* TITLE */
+
+        .title {
+            text-align: center;
+            font-size: 52px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 70px;
+        }
+
+        /* CARD CONTAINER */
+
+        .cards {
+            width: 1180px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        /* CARD */
+
+        .card {
+            width: 360px;
+            background: #ececec;
+            border-radius: 18px;
+            padding: 55px 35px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* ICON */
+
+        .card img {
+            width: 70px;
+            margin-bottom: 35px;
+        }
+
+        /* HEADING */
+
+        .card h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 22px;
+        }
+
+        /* TEXT */
+
+        .card p {
+            font-size: 16px;
+            line-height: 2;
+            color: #111;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:1200px) {
+
+            .cards {
+                width: 95%;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media(max-width:768px) {
+
+            .title {
+                font-size: 34px;
+                padding: 0 20px;
+            }
+
+            .card {
+                width: 100%;
+            }
+        }
+
+        /*section 4*/
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #1a0033;
+        }
+
+        /* SECTION */
+
+        .download-section {
+            width: 100%;
+            min-height: 100vh;
+            background: #1b0034;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 100px;
+        }
+
+        /* CONTAINER */
+
+        .download-container {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        /* LEFT CONTENT */
+
+        .left {
+            max-width: 720px;
+        }
+
+        .small-title {
+            color: white;
+            font-size: 55px;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        .main-title {
+            color: white;
+            font-size: 72px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .description {
+            color: #d4c7e5;
+            font-size: 28px;
+            line-height: 1.8;
+            margin-bottom: 55px;
+        }
+
+        /* BUTTONS */
+
+        .store-buttons {
+            display: flex;
+            gap: 35px;
+        }
+
+        .store-buttons img {
+            width: 230px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .store-buttons img:hover {
+            transform: translateY(-6px);
+        }
+
+        /* RIGHT IMAGE */
+
+        .right img {
+            width: 520px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* ANIMATION */
+
+        @keyframes float {
+
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-18px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:1200px) {
+
+            .download-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .store-buttons {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .right img {
+                width: 420px;
+            }
+
+            .small-title {
+                font-size: 42px;
+            }
+
+            .main-title {
+                font-size: 56px;
+            }
+
+            .description {
+                font-size: 22px;
+            }
+        }
+
+        @media(max-width:768px) {
+
+            .download-section {
+                padding: 60px 20px;
+            }
+
+            .small-title {
+                font-size: 32px;
+            }
+
+            .main-title {
+                font-size: 42px;
+            }
+
+            .description {
+                font-size: 18px;
+            }
+
+            .right img {
+                width: 100%;
+            }
+
+            .store-buttons img {
+                width: 180px;
+            }
+        }
+
+        /*section 5*/
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* SECTION */
+
+        .blog-section {
+            width: 100%;
+            min-height: 100vh;
+            background: #f5f5f5;
+            padding: 70px 0 90px;
+        }
+
+        /* TITLE */
+
+        .section-title {
+            text-align: center;
+            font-size: 54px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 70px;
+        }
+
+        /* CARD CONTAINER */
+
+        .blog-container {
+            width: 1180px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        /* CARD */
+
+        .blog-card {
+            width: 370px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+            transition: 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* IMAGE */
+
+        .blog-card img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+        }
+
+        /* CONTENT */
+
+        .blog-content {
+            padding: 24px;
+        }
+
+        /* TITLE */
+
+        .blog-content h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 18px;
+        }
+
+        /* TEXT */
+
+        .blog-content p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #222;
+            margin-bottom: 22px;
+        }
+
+        /* META */
+
+        .meta {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:1200px) {
+
+            .blog-container {
+                width: 95%;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media(max-width:768px) {
+
+            .section-title {
+                font-size: 38px;
+            }
+
+            .blog-card {
+                width: 100%;
+            }
+        }
+
+        /*section 6*/
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #170028;
+        }
+
+        /* SECTION */
+
+        .footer-section {
+            width: 100%;
+            background: #1b0033;
+        }
+
+        /* TOP NEWSLETTER */
+
+        .newsletter {
+            width: 100%;
+            padding: 70px 20px 85px;
+            text-align: center;
+            background: #1b0033;
+        }
+
+        /* TITLE */
+
+        .newsletter h1 {
+            color: white;
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        /* TEXT */
+
+        .newsletter p {
+            color: #e0d7ea;
+            font-size: 22px;
+            margin-bottom: 40px;
+        }
+
+        /* FORM */
+
+        .subscribe-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        /* INPUT */
+
+        .subscribe-box input {
+            width: 470px;
+            height: 62px;
+            border: none;
+            outline: none;
+            border-radius: 40px;
+            padding: 0 28px;
+            font-size: 18px;
+            background: white;
+        }
+
+        /* BUTTON */
+
+        .subscribe-box button {
+            width: 150px;
+            height: 62px;
+            border: none;
+            border-radius: 40px;
+            background: #ff5c72;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .subscribe-box button:hover {
+            background: #ff7385;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            width: 100%;
+            background:
+                linear-gradient(135deg, #32004f 0%, #25003f 50%, #1a0033 100%);
+            padding: 70px 70px;
+        }
+
+        /* GRID */
+
+        .footer-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 50px;
+        }
+
+        /* HEADINGS */
+
+        .footer-column h2 {
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 28px;
+        }
+
+        /* LINKS */
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 18px;
+        }
+
+        .footer-column ul li a {
+            text-decoration: none;
+            color: #d5c9e2;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: #ff5c72;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:1200px) {
+
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:768px) {
+
+            .newsletter h1 {
+                font-size: 38px;
+            }
+
+            .newsletter p {
+                font-size: 18px;
+            }
+
+            .subscribe-box input {
+                width: 100%;
+            }
+
+            .footer {
+                padding: 50px 30px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-column h2 {
+                font-size: 24px;
+            }
+
+            .footer-column ul li a {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero">
+        <!-- NAVBAR (Updated Href Links) -->
+        <nav class="navbar">
+            <div class="logo"><span>◐</span> Cryptous</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#download">App</a>
+                <a href="#blog" style="color:#ff5b73;">Blog</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <a href="#" class="trade-btn">Trade Now</a>
+        </nav>
+
+        <!-- HERO CONTENT -->
+
+        <section class="hero" id="home">
+            <div class="hero-content">
+
+                <div class="left">
+
+                    <h1>
+                        Make better business
+                        with Cryptocurrency
+                    </h1>
+
+                    <p>
+                        We offer users a fully operational long-term rental platform.
+                        It leverages blockchain technology.
+                    </p>
+
+                    <a href="#" class="whitelist-btn">
+                        Get Whitelisted
+                    </a>
+
+                </div>
+
+                <div class="right">
+
+                    <!-- SAME STYLE IMAGE -->
+
+                    <img src="https://connect.theoppty.com/media/message_files/2026/05/04/illu.png" alt="crypto">
+
+                </div>
+
+            </div>
+
+            <div class="circle"></div>
+
+        </section>
+
+        <section class="crypto-section" id="pricing">
+            <h1 class="title">Today's Cryptocurrency Prices</h1>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>NAME</th>
+                            <th>PRICE</th>
+                            <th>24H %</th>
+                            <th>7D %</th>
+                            <th>MARKET CAP</th>
+                            <th>VOLUME(24H)</th>
+                            <th>LAST 7 DAYS</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>1</td>
+
+                            <td>
+                                <div class="coin">
+                                    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png">
+                                    Bitcoin <span>BTC</span>
+                                </div>
+                            </td>
+
+                            <td>$55,206.61</td>
+
+                            <td class="green">▲ 0.92%</td>
+
+                            <td class="green">▲ 15.86%</td>
+
+                            <td>$1,046,899,935,348</td>
+
+                            <td>$653,452 BTC</td>
+
+                            <td>
+                                <img class="chart"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Green_arrow_up.svg/1200px-Green_arrow_up.svg.png">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>2</td>
+
+                            <td>
+                                <div class="coin">
+                                    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png">
+                                    Ethereum <span>ETH</span>
+                                </div>
+                            </td>
+
+                            <td>$3,506.21</td>
+
+                            <td class="red">▼ 0.45%</td>
+
+                            <td class="green">▲ 8.12%</td>
+
+                            <td>$402,899,935,348</td>
+
+                            <td>$213,452 ETH</td>
+
+                            <td>
+                                <img class="chart"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Green_arrow_up.svg/1200px-Green_arrow_up.svg.png">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>3</td>
+
+                            <td>
+                                <div class="coin">
+                                    <img src="https://cryptologos.cc/logos/cardano-ada-logo.png">
+                                    Cardano <span>ADA</span>
+                                </div>
+                            </td>
+
+                            <td>$2.15</td>
+
+                            <td class="red">▼ 1.12%</td>
+
+                            <td class="red">▼ 4.86%</td>
+
+                            <td>$69,899,935,348</td>
+
+                            <td>$53,452 ADA</td>
+
+                            <td>
+                                <img class="chart"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Red_arrow_down.svg/1200px-Red_arrow_down.svg.png">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>4</td>
+
+                            <td>
+                                <div class="coin">
+                                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png">
+                                    Tether <span>USDT</span>
+                                </div>
+                            </td>
+
+                            <td>$1.00</td>
+
+                            <td class="green">▲ 0.01%</td>
+
+                            <td class="green">▲ 0.05%</td>
+
+                            <td>$89,899,935,348</td>
+
+                            <td>$23,452 USDT</td>
+
+                            <td>
+                                <img class="chart"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Green_arrow_up.svg/1200px-Green_arrow_up.svg.png">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>5</td>
+
+                            <td>
+                                <div class="coin">
+                                    <img src="https://cryptologos.cc/logos/avalanche-avax-logo.png">
+                                    Avalanche <span>AVAX</span>
+                                </div>
+                            </td>
+
+                            <td>$55.20</td>
+
+                            <td class="red">▼ 0.92%</td>
+
+                            <td class="green">▲ 3.21%</td>
+
+                            <td>$25,899,935,348</td>
+
+                            <td>$12,452 AVAX</td>
+
+                            <td>
+                                <img class="chart"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Green_arrow_up.svg/1200px-Green_arrow_up.svg.png">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>6</td>
+
+                            <td>
+                                <div class="coin">
+                                    <img src="https://cryptologos.cc/logos/algorand-algo-logo.png">
+                                    Algorand <span>ALGO</span>
+                                </div>
+                            </td>
+
+                            <td>$1.02</td>
+
+                            <td class="green">▲ 2.14%</td>
+
+                            <td class="red">▼ 0.56%</td>
+
+                            <td>$6,899,935,348</td>
+
+                            <td>$9,452 ALGO</td>
+
+                            <td>
+                                <img class="chart"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Red_arrow_down.svg/1200px-Red_arrow_down.svg.png">
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+        //section3//
+        <!-- ABOUT SECTION (Added ID) -->
+        <section class="trusted" id="about">
+            <h1 class="title">The most trusted cryptocurrency platform</h1>
+
+            <div class="cards">
+
+                <!-- CARD 1 -->
+
+                <div class="card">
+
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968260.png" alt="trading">
+
+                    <h2>Ease of Trading</h2>
+
+                    <p>
+                        Intuitive interface<br>
+                        Instant deposit options<br>
+                        Cash out directly to your bank account
+                    </p>
+
+                </div>
+
+                <!-- CARD 2 -->
+
+                <div class="card">
+
+                    <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="security">
+
+                    <h2>Institutional-grade Security</h2>
+
+                    <p>
+                        98% of assets stored safely offline<br>
+                        Highly encrypted personal data<br>
+                        Whitelisting and confirmations
+                    </p>
+
+                </div>
+
+                <!-- CARD 3 -->
+
+                <div class="card">
+
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="reliability">
+
+                    <h2>Proven Reliability</h2>
+
+                    <p>
+                        Exchanging bitcoin since 2011<br>
+                        Industry-leading uptime<br>
+                        24/7 dedicated support
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+        /*section 4*/
+        <!-- DOWNLOAD SECTION (Added ID) -->
+        <section class="download-section" id="download">
+            <div class="download-container">
+
+                <div class="left">
+
+                    <h2 class="small-title">
+                        Try the future, today.
+                    </h2>
+
+                    <h1 class="main-title">
+                        Download Crypto
+                    </h1>
+
+                    <p class="description">
+                        Stay connected to the market with our mobile app.
+                        Featuring advanced order types and analytical tools
+                        for experienced traders, as well as a simple buy &
+                        sell interface for those just getting started.
+                    </p>
+
+                    <div class="store-buttons">
+
+                        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                            alt="App Store">
+
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                            alt="Google Play">
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+
+                <div class="right">
+
+                    <img src="https://connect.theoppty.com/media/message_files/2026/05/04/phone.png" alt="Mobile App">
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+        /*section 5*/
+        <!-- BLOG SECTION (Added ID) -->
+        <section class="blog-section" id="blog">
+            <h1 class="section-title">Learn to thrive</h1>
+
+
+            <div class="blog-container">
+
+                <!-- CARD 1 -->
+
+                <div class="blog-card">
+
+                    <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=1200&auto=format&fit=crop"
+                        alt="Crypto">
+
+                    <div class="blog-content">
+
+                        <h2>New Leveraged Pairs Added</h2>
+
+                        <p>
+                            We urge everyone adopt good cybersecurity habits,
+                            and use unique passwords...
+                        </p>
+
+                        <div class="meta">
+                            By: Jennia Peris | 15/07/2021 | 5 Min read
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD 2 -->
+
+                <div class="blog-card">
+
+                    <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=1200&auto=format&fit=crop"
+                        alt="Bitcoin">
+
+                    <div class="blog-content">
+
+                        <h2>Understanding Bitcoin</h2>
+
+                        <p>
+                            Learn how Bitcoin works and why it's reshaping
+                            the financial industry...
+                        </p>
+
+                        <div class="meta">
+                            By: John Smith | 12/07/2021 | 7 Min read
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD 3 -->
+
+                <div class="blog-card">
+
+                    <img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=1200&auto=format&fit=crop"
+                        alt="Future Crypto">
+
+                    <div class="blog-content">
+
+                        <h2>Future of Crypto</h2>
+
+                        <p>
+                            Experts discuss the potential of blockchain
+                            and cryptocurrency for global trade...
+                        </p>
+
+                        <div class="meta">
+                            By: Sarah Lee | 10/07/2021 | 6 Min read
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+        /*section 6*/
+        <!-- FOOTER/CONTACT SECTION (Added ID) -->
+        <section class="footer-section" id="contact">
+            <div class="newsletter">
+
+
+                <h1>Never miss a drop</h1>
+
+                <p>
+                    Subscribe for the latest news, drops & collectibles
+                </p>
+
+                <div class="subscribe-box">
+
+                    <input type="email" placeholder="Enter your email address">
+
+                    <button>
+                        Subscribe
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+
+            <footer class="footer">
+
+                <div class="footer-container">
+
+                    <!-- COMPANY -->
+
+                    <div class="footer-column">
+
+                        <h2>Company</h2>
+
+                        <ul>
+                            <li><a href="#">About us</a></li>
+                            <li><a href="#">Terms of use</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Disclaimer</a></li>
+                        </ul>
+
+                    </div>
+
+                    <!-- BUSINESSES -->
+
+                    <div class="footer-column">
+
+                        <h2>Businesses</h2>
+
+                        <ul>
+                            <li><a href="#">Prime</a></li>
+                            <li><a href="#">Custody</a></li>
+                            <li><a href="#">Asset Hub</a></li>
+                            <li><a href="#">Commerce</a></li>
+                        </ul>
+
+                    </div>
+
+                    <!-- EXCHANGE -->
+
+                    <div class="footer-column">
+
+                        <h2>Exchange</h2>
+
+                        <ul>
+                            <li><a href="#">Exchange Home</a></li>
+                            <li><a href="#">Margin Trading</a></li>
+                            <li><a href="#">Derivatives Trading</a></li>
+                            <li><a href="#">Trading Arena</a></li>
+                        </ul>
+
+                    </div>
+
+                    <!-- BLOCKCHAIN -->
+
+                    <div class="footer-column">
+
+                        <h2>Blockchain</h2>
+
+                        <ul>
+                            <li><a href="#">Chain Explorer</a></li>
+                            <li><a href="#">The Syndicate</a></li>
+                            <li><a href="#">Security</a></li>
+                            <li><a href="#">Cryptous Credit</a></li>
+                        </ul>
+
+                    </div>
+
+                    <!-- RESOURCES -->
+
+                    <div class="footer-column">
+
+                        <h2>Resources</h2>
+
+                        <ul>
+                            <li><a href="#">Prices</a></li>
+                            <li><a href="#">Site Widgets</a></li>
+                            <li><a href="#">Tax</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </footer>
+
+        </section>
+
+</body>
+
+</html>
+<script>
+
+    // ✅ 1. SMOOTH SCROLL (Navbar links)
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+
+
+    // ✅ 2. SUBSCRIBE BUTTON FUNCTION
+    document.querySelector(".subscribe-box button").addEventListener("click", () => {
+
+        const emailInput = document.querySelector(".subscribe-box input");
+        const email = emailInput.value.trim();
+
+        if (email === "") {
+            alert("⚠️ Please enter your email");
+        }
+        else if (!email.includes("@") || !email.includes(".")) {
+            alert("❌ Invalid email format");
+        }
+        else {
+            alert("✅ Subscribed successfully: " + email);
+            emailInput.value = "";
+        }
+
+    });
+
+
+    // ✅ 3. FAKE LIVE CRYPTO PRICE UPDATE
+    setInterval(() => { //Runs function repeatedly every 4 seconds//
+
+        document.querySelectorAll("tbody tr").forEach(row => {  //Selects all rows inside table body
+            //Each row = one cryptocurrency//
+
+            const priceCell = row.children[2]; // PRICE column
+            let price = parseFloat(priceCell.innerText.replace("$", "").replace(",", ""));//removes dollar sybol and comma and coverts the string into number//
+
+            let change = (Math.random() * 200 - 100); // random +/- change
+            price = price + change;
+
+            priceCell.innerText = "$" + price.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            // CHANGE COLOR RANDOM
+            const changeCell = row.children[3];
+            let percent = (Math.random() * 5).toFixed(2);
+
+            if (Math.random() > 0.5) {
+                changeCell.innerText = "▲ " + percent + "%";
+                changeCell.classList.remove("red");
+                changeCell.classList.add("green");
+            } else {
+                changeCell.innerText = "▼ " + percent + "%";
+                changeCell.classList.remove("green");
+                changeCell.classList.add("red");
+            }
+
+        });
+
+    }, 4000);
+
+
+    // ✅ 4. BUTTON CLICK EFFECT
+    document.querySelector(".whitelist-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        alert("🚀 You are whitelisted!");
+    });
+
+
+    // ✅ 5. SIMPLE SCROLL ANIMATION
+    window.addEventListener("scroll", () => {
+
+        document.querySelectorAll(".card, .blog-card").forEach(el => {
+            const position = el.getBoundingClientRect().top;
+            const screen = window.innerHeight;
+
+            if (position < screen - 100) {
+                el.style.opacity = "1";
+                el.style.transform = "translateY(0)";
+            }
+        });
+
+    });
+// initial hidden state//
+    document.querySelectorAll(".card, .blog-card").forEach(el => {
+         el.style.opacity = "0";
+          el.style.transform = "translateY(40px)";
+           el.style.transition = "0.6s ease"; });
+</script>
